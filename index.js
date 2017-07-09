@@ -7,6 +7,7 @@ var http = require('http')
 var fs = require('fs')
 var formidable = require('formidable')
 var util = require('util')
+var snoowrap = require('snoowrap')
 
 var classifier = new natural.BayesClassifier();
 var input = fs.readFileSync('twitter-hate.csv', 'utf8');
@@ -71,17 +72,6 @@ classifier.events.on('trainedWithDocument', function (obj) {
     */
 });
 
-function testString(string) {
-     console.log(classifier.classify(string));
-     console.log(classifier.getClassifications(string));
-
-     //Use this to save the classifier for later use
-     classifier.save('classifier.json', function(err, classifier) {
-         // the classifier is saved to the classifier.json file!
-         console.log("Classifier saved!");
-     });
-}
-
 
 // SERVER PART STARTS HERE
 
@@ -105,6 +95,29 @@ function webcontent(res){
     })
 }
 
+// SNOOWRAP API HERE
+const r = new snoowrap({
+  userAgent: '',
+  clientId: '',
+  clientSecret: '',
+  username: '',
+  password: ''
+});
+
+function processUser(string) {
+    for (i = 0; i < string.length; i++){
+        console.log(string[i])
+    }
+     console.log(classifier.classify(string));
+     console.log(classifier.getClassifications(string));
+
+     //Use this to save the classifier for later use
+     classifier.save('classifier.json', function(err, classifier) {
+         // the classifier is saved to the classifier.json file!
+         console.log("Classifier saved!");
+     });
+}
+
 function processinput(req, res){
     var fields = []
     var form = new formidable.IncomingForm()
@@ -113,7 +126,8 @@ function processinput(req, res){
         console.log(field)
         console.log(value)
         fields[field] = value
-        testString(value)
+        //.then takes a function that is applied to the result of r.getUser
+        r.getUser('whymauri').getOverview().then(processUser)
     })
 
     form.on('end', function(){

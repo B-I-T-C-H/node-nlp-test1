@@ -1,25 +1,26 @@
 {
-    "name": "node-nlp-test1",
-    "version": "1.0.0",
-    "description": "A test of the Natural Node Js package, running on the Twitter Hate Speech Data",
-    "main": "index.js",
-    "scripts": {
-        "start": "node index.js"
-    },
-    "dependencies": {
-        "csv-parse": "^1.2.0",
-        "fs": "0.0.1-security",
-        "natural": "^0.5.4",
-        "should": "^11.2.1"
-    },
-    "keywords": [
-        "Twitter",
-        "node",
-        "nlp",
-        "hate",
-        "speech",
-        "reddit"
-    ],
-    "author": "",
-    "license": "MIT"
+  "name": "node-nlp-test1",
+  "version": "1.0.0",
+  "description": "A test of the Natural Node Js package, running on the Twitter Hate Speech Data",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "csv-parse": "^1.2.0",
+    "fs": "0.0.1-security",
+    "natural": "^0.5.4",
+    "should": "^11.2.1",
+    "snoowrap": "^1.14.1"
+  },
+  "keywords": [
+    "Twitter",
+    "node",
+    "nlp",
+    "hate",
+    "speech",
+    "reddit"
+  ],
+  "author": "",
+  "license": "MIT"
 }
