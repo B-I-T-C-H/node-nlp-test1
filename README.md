@@ -3,6 +3,6 @@ A test of the NaturalNode package in javascript. This package seems to be more p
 
 
 To test, just cd into the directory for this project, then run
-'''
+```
 node index.js
-'''
+```
