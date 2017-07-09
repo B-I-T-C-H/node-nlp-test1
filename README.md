@@ -7,6 +7,7 @@ To test, first cd into the directory and install dependencies with:
 npm install should
 npm install csv-parse
 npm install natural
+npm install formidable
 ```
 
 Then run:

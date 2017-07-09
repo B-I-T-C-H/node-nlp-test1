@@ -3,6 +3,11 @@ var parse = require('csv-parse');
 var fs = require('fs');
 require('should');
 
+var http = require('http')
+var fs = require('fs')
+var formidable = require('formidable')
+var util = require('util')
+
 var classifier = new natural.BayesClassifier();
 var input = fs.readFileSync('twitter-hate.csv', 'utf8');
 
@@ -65,3 +70,49 @@ classifier.events.on('trainedWithDocument', function (obj) {
     *  }
     */
 });
+
+// SERVER PART STARTS HERE
+
+var server = http.createServer(function (req, res) {
+    if (req.method.toLowerCase() == 'get'){
+        webcontent(res)
+    }
+    else if (req.method.toLowerCase() == 'post'){
+        processinput(req, res)
+    }
+})
+
+function webcontent(res){
+    fs.readFile('index.html', function(err, data){
+        res.writeHead(200, {
+            'Content-Type': 'text/html',
+            'Content-Length': data.length
+        })
+        res.write(data)
+        res.end()
+    })
+}
+
+function processinput(req, res){
+    var fields = []
+    var form = new formidable.IncomingForm()
+
+    form.on('field', function(field, value){
+        console.log(field)
+        console.log(value)
+        fields[field] = value
+    })
+
+    form.on('end', function(){
+        res.writeHead(200, {
+            'content-type': 'text/plain'
+        })
+        res.write('received the data:\n\n')
+        res.end(util.inspect({
+            fields: fields
+        }))
+    })
+    form.parse(req)
+}
+
+server.listen(8080)
