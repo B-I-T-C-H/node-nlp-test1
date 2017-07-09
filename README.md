@@ -10,6 +10,7 @@ npm install natural
 npm install formidable
 npm install snoowrap
 ```
+On lines 99-105, you will have to fill it our with your own information.
 
 Then run:
 ```
