@@ -71,6 +71,18 @@ classifier.events.on('trainedWithDocument', function (obj) {
     */
 });
 
+function testString(string) {
+     console.log(classifier.classify(string));
+     console.log(classifier.getClassifications(string));
+
+     //Use this to save the classifier for later use
+     classifier.save('classifier.json', function(err, classifier) {
+         // the classifier is saved to the classifier.json file!
+         console.log("Classifier saved!");
+     });
+}
+
+
 // SERVER PART STARTS HERE
 
 var server = http.createServer(function (req, res) {
@@ -101,6 +113,7 @@ function processinput(req, res){
         console.log(field)
         console.log(value)
         fields[field] = value
+        testString(value)
     })
 
     form.on('end', function(){

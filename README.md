@@ -8,6 +8,7 @@ npm install should
 npm install csv-parse
 npm install natural
 npm install formidable
+npm install snoowrap
 ```
 
 Then run:
