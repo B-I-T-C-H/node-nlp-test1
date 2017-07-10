@@ -40,20 +40,21 @@ function trainData() {
 
 function onTrained() {
      //Outputs "not hate"
-     var testPhrase1 = "The world is a beautiful place."
-     console.log(classifier.classify(testPhrase1));
-     console.log(classifier.getClassifications(testPhrase1));
+     // var testPhrase1 = "The world is a beautiful place."
+     // console.log(classifier.classify(testPhrase1));
+     // console.log(classifier.getClassifications(testPhrase1));
 
-     //Outputs "hate"
-     var testPhrase2 = "Suck my cock, you Nazi."
-     console.log(classifier.classify(testPhrase2));
-     console.log(classifier.getClassifications(testPhrase2));
+     // //Outputs "hate"
+     // var testPhrase2 = "Suck my cock, you Nazi."
+     // console.log(classifier.classify(testPhrase2));
+     // console.log(classifier.getClassifications(testPhrase2));
 
-     //Use this to save the classifier for later use
-     classifier.save('classifier.json', function(err, classifier) {
-         // the classifier is saved to the classifier.json file!
-         console.log("Classifier saved!");
-     });
+     // //Use this to save the classifier for later use
+     // classifier.save('classifier.json', function(err, classifier) {
+     //     // the classifier is saved to the classifier.json file!
+     //     console.log("Classifier saved!");
+     // });
+     console.log("on pause")
 }
 
 
@@ -105,11 +106,16 @@ const r = new snoowrap({
 });
 
 function processUser(string) {
+    text = ""
+
     for (i = 0; i < string.length; i++){
-        console.log(string[i])
+        text += string[i]["body"]
     }
-     console.log(classifier.classify(string));
-     console.log(classifier.getClassifications(string));
+
+    text = String(text).substring(0, 1000)
+    console.log(text)
+    console.log(classifier.classify(text));
+    console.log(classifier.getClassifications(text));
 
      //Use this to save the classifier for later use
      classifier.save('classifier.json', function(err, classifier) {
