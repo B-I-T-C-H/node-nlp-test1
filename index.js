@@ -68,26 +68,6 @@ function webcontent(res){
     })
 }
 
-
-function processUser(string) {
-    text = ""
-
-    for (i = 0; i < string.length; i++){
-        text += string[i]["body"]
-    }
-
-    text = String(text).substring(0, 1000)
-    console.log(text)
-    console.log(classifier.classify(text));
-    console.log(classifier.getClassifications(text));
-
-     //Use this to save the classifier for later use
-     classifier.save('classifier.json', function(err, classifier) {
-         // the classifier is saved to the classifier.json file!
-         console.log("Classifier saved!");
-     });
-}
-
 function processOverview(string) {
     var comments = []
     for (i = 0; i < string.length; i++){
@@ -148,13 +128,16 @@ function processInput(req, res){
     })
 
     form.on('end', function(){
+        fs.readFile('results.html', function(err, data){
         res.writeHead(200, {
-            'content-type': 'text/plain'
+            'Content-Type': 'text/html',
         })
-        res.write('received the data:\n\n')
+        res.write(data)
         res.end(util.inspect({
             fields: fields
         }))
+
+        })
     })
     form.parse(req)
 }
