@@ -133,7 +133,7 @@ function processinput(req, res){
         console.log(value)
         fields[field] = value
         //.then takes a function that is applied to the result of r.getUser
-        r.getUser('whymauri').getOverview().then(processUser)
+        r.getUser(value).getOverview().then(processUser)
     })
 
     form.on('end', function(){
