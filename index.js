@@ -7,16 +7,27 @@ var util = require('util')
 var snoowrap = require('snoowrap')
 require('should');
 
+const cred = require('DEV-API-CRED')
+
+// SNOOWRAP API HERE - LOADS FROM DEV-API-CRED
+const r = new snoowrap({
+  userAgent: cred.userAgent,
+  clientId: cred.clientId,
+  clientSecret: cred.clientSecret,
+  username: cred.username,
+  password: cred.password
+});
+
 
 var classifier = new natural.BayesClassifier();
 var input = fs.readFileSync('twitter-hate.csv', 'utf8');
-
 
 //Loads a classifier as saved.
 natural.BayesClassifier.load('classifier.json', null, function(err, classifierLoad) {
     if (classifierLoad != undefined) {
         classifier = classifierLoad;
-        onTrained();
+        
+        console.log("on pause")
     }
     else { trainData(); }
 });
@@ -32,46 +43,11 @@ function trainData() {
 
         console.log("Training files");
         classifier.train();
-
-        onTrained();
+        console.log("Finished training");
+        
+        console.log("on pause")
     });
 }
-
-function onTrained() {
-     //Outputs "not hate"
-     // var testPhrase1 = "The world is a beautiful place."
-     // console.log(classifier.classify(testPhrase1));
-     // console.log(classifier.getClassifications(testPhrase1));
-
-     // //Outputs "hate"
-     // var testPhrase2 = "Suck my cock, you Nazi."
-     // console.log(classifier.classify(testPhrase2));
-     // console.log(classifier.getClassifications(testPhrase2));
-
-     // //Use this to save the classifier for later use
-     // classifier.save('classifier.json', function(err, classifier) {
-     //     // the classifier is saved to the classifier.json file!
-     //     console.log("Classifier saved!");
-     // });
-     console.log("on pause")
-}
-
-
-//Use this to have it report each time a document is trained
-classifier.events.on('trainedWithDocument', function (obj) {
-    if (obj["index"] % 1000 == 0) {
-        console.log(obj["index"]);
-    }
-
-    //Data format
-    /* {
-    *   total: 23 // There are 23 total documents being trained against
-    *   index: 12 // The index/number of the document that's just been trained against
-    *   doc: {...} // The document that has just been indexed
-    *  }
-    */
-});
-
 
 // SERVER PART STARTS HERE
 
@@ -80,7 +56,7 @@ var server = http.createServer(function (req, res) {
         webcontent(res)
     }
     else if (req.method.toLowerCase() == 'post'){
-        processinput(req, res)
+        processInput(req, res)
     }
 })
 
@@ -95,14 +71,6 @@ function webcontent(res){
     })
 }
 
-// SNOOWRAP API HERE
-const r = new snoowrap({
-  userAgent: '',
-  clientId: '',
-  clientSecret: '',
-  username: '',
-  password: ''
-});
 
 function processUser(string) {
     text = ""
@@ -135,9 +103,9 @@ function processOverview(string) {
     for (i = 0; i < comments.length; i++){
         text = String(comments[i]).substring(0,1000)
 
-        /* If a user quotes someone who is using hate speech, they are not 
-         penalized for hate speech. Currently fails the edge case of 
-         multiple paragraphs in one quote. Quotation notation in Reddit is 
+        /* If a user quotes someone who is using hate speech, they are not
+         penalized for hate speech. Currently fails the edge case of
+         multiple paragraphs in one quote. Quotation notation in Reddit is
          '>' */
         text = text.split('\n')
         for (j = 0; j < text.length; j++){
@@ -167,7 +135,7 @@ function processOverview(string) {
     console.log('Naive Bayes Bitch Index: ' + (bitchIndex/string.length).toString())
 }
 
-function processinput(req, res){
+function processInput(req, res){
     var fields = []
     var form = new formidable.IncomingForm()
 

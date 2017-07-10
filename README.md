@@ -12,15 +12,14 @@ npm install http
 npm install fs
 npm install util
 ```
-On lines 99-105 in index.js, you will have to fill it out with your own Reddit API information.
+For adding your own Reddit API information, create a file called index.js in a folder called DEV-API-CRED in your node_modules folder. Then just paste the following code and insert relevant information in the quotations. Because the node_modules folder is ignored by git, these credentials stay local, saving the hassle of adding and removing credentials every commit.
 ```
-const r = new snoowrap({
-  userAgent: 'bitch 1.0 by /u/username',
-  clientId: 'id',
-  clientSecret: 'psswd',
-  username: 'reddit username',
-  password: 'reddit passwd'
-});
+exports.userAgent = ""
+exports.clientId = ""
+exports.clientSecret = ""
+exports.username = ""
+exports.password = ""
+
 ```
 
 Then run:
