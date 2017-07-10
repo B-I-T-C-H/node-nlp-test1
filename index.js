@@ -1,13 +1,12 @@
 var natural = require('natural');
 var parse = require('csv-parse');
 var fs = require('fs');
-require('should');
-
 var http = require('http')
-var fs = require('fs')
 var formidable = require('formidable')
 var util = require('util')
 var snoowrap = require('snoowrap')
+require('should');
+
 
 var classifier = new natural.BayesClassifier();
 var input = fs.readFileSync('twitter-hate.csv', 'utf8');

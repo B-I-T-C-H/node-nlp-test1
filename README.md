@@ -8,6 +8,9 @@ npm install csv-parse
 npm install natural
 npm install formidable
 npm install snoowrap
+npm install http
+npm install fs
+npm install util
 ```
 On lines 99-105 in index.js, you will have to fill it out with your own Reddit API information.
 ```
