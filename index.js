@@ -123,6 +123,50 @@ function processUser(string) {
      });
 }
 
+function processOverview(string) {
+    var comments = []
+    for (i = 0; i < string.length; i++){
+        comments.push(string[i]['body'])
+    }
+
+    var text = ''
+    var bitchIndex = 0
+
+    for (i = 0; i < comments.length; i++){
+        text = String(comments[i]).substring(0,1000)
+
+        /* If a user quotes someone who is using hate speech, they are not 
+         penalized for hate speech. Currently fails the edge case of 
+         multiple paragraphs in one quote. Quotation notation in Reddit is 
+         '>' */
+        text = text.split('\n')
+        for (j = 0; j < text.length; j++){
+            if (text[j][0] === '>'){
+                text[j] = ''
+            }
+        }
+        text = text.join(' ')
+
+        console.log(text)
+        console.log(classifier.classify(text))
+
+        //Increment Bitch Index
+        if (classifier.classify(text) === 'The tweet contains hate speech'){
+            bitchIndex ++
+        }
+
+        console.log(classifier.getClassifications(text))
+
+
+         //Use this to save the classifier for later use
+         classifier.save('classifier.json', function(err, classifier) {
+             // the classifier is saved to the classifier.json file!
+             console.log("Classifier saved!");
+        })
+    }
+    console.log('Naive Bayes Bitch Index: ' + (bitchIndex/string.length).toString())
+}
+
 function processinput(req, res){
     var fields = []
     var form = new formidable.IncomingForm()
@@ -132,7 +176,7 @@ function processinput(req, res){
         console.log(value)
         fields[field] = value
         //.then takes a function that is applied to the result of r.getUser
-        r.getUser(value).getOverview().then(processUser)
+        r.getUser(value).getComments().then(processOverview)
     })
 
     form.on('end', function(){
