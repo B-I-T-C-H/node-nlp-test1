@@ -8,8 +8,7 @@ var snoowrap = require('snoowrap')
 require('should');
 
 const cred = require('DEV-API-CRED')
-
-// SNOOWRAP API HERE - LOADS FROM DEV-API-CRED
+// Snoowrap API credentials, loads from DEV-API-CRED
 const r = new snoowrap({
   userAgent: cred.userAgent,
   clientId: cred.clientId,
@@ -17,7 +16,6 @@ const r = new snoowrap({
   username: cred.username,
   password: cred.password
 });
-
 
 var classifier = new natural.BayesClassifier();
 var input = fs.readFileSync('twitter-hate.csv', 'utf8');
@@ -50,7 +48,6 @@ function trainData() {
 }
 
 // SERVER PART STARTS HERE
-
 var server = http.createServer(function (req, res) {
     if (req.method.toLowerCase() == 'get'){
         webcontent(res)
@@ -125,14 +122,15 @@ function processOverview(string) {
 
         console.log(classifier.getClassifications(text))
 
-
          //Use this to save the classifier for later use
          classifier.save('classifier.json', function(err, classifier) {
              // the classifier is saved to the classifier.json file!
              console.log("Classifier saved!");
         })
     }
-    console.log('Naive Bayes Bitch Index: ' + (bitchIndex/string.length).toString())
+    bitch = (bitchIndex/string.length).toString()
+    console.log('Naive Bayes Bitch Index: ' + bitch)
+    return bitch
 }
 
 function processInput(req, res){
@@ -144,7 +142,9 @@ function processInput(req, res){
         console.log(value)
         fields[field] = value
         //.then takes a function that is applied to the result of r.getUser
-        r.getUser(value).getComments().then(processOverview)
+        r.getUser(value).getComments().then(function(x){
+            processOverview(x)
+        })
     })
 
     form.on('end', function(){
