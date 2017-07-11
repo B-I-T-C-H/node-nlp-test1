@@ -8,13 +8,10 @@
   },
   "dependencies": {
     "csv-parse": "^1.2.0",
-    "formidable": "^1.1.1",
-    "fs": "^0.0.1-security",
-    "http": "^0.0.0",
+    "fs": "0.0.1-security",
     "natural": "^0.5.4",
     "should": "^11.2.1",
-    "snoowrap": "^1.14.1",
-    "util": "^0.10.3"
+    "snoowrap": "^1.14.1"
   },
   "keywords": [
     "Twitter",
