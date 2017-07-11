@@ -8,6 +8,21 @@ var snoowrap = require('snoowrap')
 require('should');
 const cred = require('DEV-API-CRED')
 
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/mydb";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  server.listen(8080)
+
+  var myobj = { username: "whymauri", bitch: "testing" };
+  db.collection("usernames").insertOne(myobj, function(err, res) {
+    if (err) throw err;
+    console.log("1 record inserted");
+    db.close();
+  });
+});
+
 // Snoowrap API credentials, loads from DEV-API-CRED
 const r = new snoowrap({
   userAgent: cred.userAgent,
@@ -141,5 +156,3 @@ function processInput(req, res){
     })
     form.parse(req)
 }
-
-server.listen(8080)
