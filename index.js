@@ -6,8 +6,8 @@ var formidable = require('formidable')
 var util = require('util')
 var snoowrap = require('snoowrap')
 require('should');
-
 const cred = require('DEV-API-CRED')
+
 // Snoowrap API credentials, loads from DEV-API-CRED
 const r = new snoowrap({
   userAgent: cred.userAgent,
